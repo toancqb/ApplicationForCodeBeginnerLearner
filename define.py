@@ -6,9 +6,9 @@
 ###############################
 
 
-CELL = 20
-PX = 30
-PY = 20
+CELL = 30
+PX = 20
+PY = 15
 SCREEN_WIDTH = CELL * PX
 SCREEN_HEIGHT = CELL * PY
 
