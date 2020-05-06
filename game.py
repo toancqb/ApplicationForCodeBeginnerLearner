@@ -43,12 +43,39 @@ class Game():
 		}
 
 		self.code = ["down", "left", "f1"]
+		running = True
+		while running:
+			for event in pygame.event.get():
+				if event.type == pygame.QUIT:
+					running = False
+				if event.type == pygame.KEYDOWN:
+					if event.key == pygame.K_ESCAPE:
+						running = False
+					if event.key == pygame.K_SPACE:
+						opt = True
+				if event.type == pygame.MOUSEBUTTONDOWN:
+					if pygame.mouse.get_pressed()[0]:
+						p = rev_rect(pygame.mouse.get_pos())
+						self.board.ar[p[0]][p[1]] = -1
+			
+			self.screen.fill(WHITE)
+			self.screen.blit(self.right_menu, (SCREEN_WIDTH, 0))
+			self.board.draw2()
+
+			pygame.display.flip()
+			self.clock.tick(3)
 
 	def Play(self):	
-		self.list_actions = []
+		
+		# self.board.init_level_test()
 		self.board.init_level_1()
+		self.list_actions = []
+		if is_in_list(self.code, "f1"):
+			flag = True
+		else:
+			self.get_list()
+			flag = False
 		opt = False
-		flag = 0
 		running = True
 		while running:
 			for event in pygame.event.get():
@@ -65,9 +92,11 @@ class Game():
 						self.board.ar[p[0]][p[1]] = -1
 			
 			if opt:
-				self.get_list()
+				if flag:
+					self.get_list()
 				if len(self.list_actions) == 0:
 					opt = False
+					return -1
 				else:
 					op = self.list_actions.pop(0)
 					self.board.p = self.OPS[op].run(self.board.ar, self.board.p)

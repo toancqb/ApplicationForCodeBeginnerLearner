@@ -9,6 +9,21 @@ class Board():
 		self.init_arena()
 		self.st = [(1,1)]
 
+	def draw2(self):
+		for i in range(PX):
+			if i % 9 == 0:
+				color = GRIS
+			else:
+				color = GRIS_B
+			pygame.draw.line(self.screen, color, (i*CELL, 0), (i*CELL, SCREEN_HEIGHT))
+		for i in range(PY):
+			if i % 9 == 0:
+				color = GRIS
+			else:
+				color = GRIS_B
+			pygame.draw.line(self.screen, color, (0, i*CELL), (SCREEN_WIDTH, i*CELL))
+
+		
 	def draw(self):
 		for i in range(PX):
 			if i % 9 == 0:
@@ -41,8 +56,17 @@ class Board():
 	def init_arena(self):
 		self.ar = [[ -1 for i in range(PY)] for i in range(PX)]
 
+	def init_level_test(self):
+		tx, ty = 4, 2
+		self.ar = [[ 0 for i in range(PY)] for i in range(PX)]
+		##
+		self.ar[tx+6][ty+2] = 1
+		self.p = (tx+6,ty+2)
+		self.ar[tx+2][ty+6] = 3
+		self.P = (tx+2,ty+6)
+
 	def init_level_1(self):
-		tx, ty = 2, 2
+		tx, ty = 4, 2
 		self.ar[tx+6][ty+2] = 0
 		self.ar[tx+6][ty+3] = 0
 		self.ar[tx+5][ty+3] = 0
