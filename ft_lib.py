@@ -22,6 +22,13 @@ def is_in_list(lst, s):
 def rev_rect(p):
 	return (p[0] // CELL, p[1] // CELL)
 
+def rev_rect_button(p):
+    return (p[0] // BS, p[1] // BS)
+
+def change_color(self):
+    self.color = [random.randint(0,255) for _ in range(3)]
+
+
 
 class Button():
     """A fairly straight forward button class."""

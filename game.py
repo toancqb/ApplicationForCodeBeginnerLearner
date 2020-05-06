@@ -14,35 +14,111 @@ from operations import *
 class Game():
 	def __init__(self):
 		pygame.init()
-		self.screen = pygame.display.set_mode((SCREEN_WIDTH + SCREEN_WIDTH//2, SCREEN_HEIGHT))
-		self.right_menu = pygame.Surface((SCREEN_WIDTH//2,SCREEN_HEIGHT))
+		self.screen = pygame.display.set_mode((SCREEN_WIDTH + SCREEN_WIDTH, SCREEN_HEIGHT))
+		self.right_menu = pygame.Surface((SCREEN_WIDTH,SCREEN_HEIGHT))
 		self.right_menu.fill(BLACK)
 		self.clock = pygame.time.Clock()
 		self.font = pygame.font.SysFont("comicsansms", 30)
-		
-		self.CodeInput()
+		self.font2 = pygame.font.SysFont("comicsansms", 35)
 
-		opt = self.Play()
-		self.Game_Over(opt)
+		self.board = Board(self.screen)
+		self.group_button = []
+		self.group_solution = []
+		self.init_buttons()
+		self.init_solution()
+		
+		running = True
+		while running:
+
+			self.CodeInput()
+
+			opt = self.Play()
+			opt2 = self.Game_Over(opt)
+			if opt2 == -1:
+				running = False
 
 		pygame.quit()
 
+	def init_buttons(self):
+		norm = SCREEN_WIDTH+SCREEN_WIDTH//4
+		self.button_up = Button((0,0,BS,BS),RED,change_color,text="UP",**BUTTON_STYLE)
+		self.button_up.rect.center = (norm - BS*2,100)
+
+		self.button_down = Button((0,0,BS,BS),RED,change_color,text="DOWN",**BUTTON_STYLE)
+		self.button_down.rect.center = (norm - BS,100)
+
+		self.button_left = Button((0,0,BS,BS),RED,change_color,text="LEFT",**BUTTON_STYLE)
+		self.button_left.rect.center = (norm,100)
+
+		self.button_right = Button((0,0,BS,BS),RED,change_color,text="RIGHT",**BUTTON_STYLE)
+		self.button_right.rect.center = (norm + BS,100)
+
+		self.button_f1 = Button((0,0,BS,BS),GREEN,change_color,text="F1",**BUTTON_STYLE)
+		self.button_f1.rect.center = (norm + BS*2,100)
+
+		self.group_button = [self.button_up,self.button_down,self.button_left,self.button_right,self.button_f1]
+
+	def init_solution(self):
+		self.board.init_level_1()
+		norm = SCREEN_WIDTH+SCREEN_WIDTH//4
+		for i in range(self.board.op_max):
+			# button_s1 = Button((0,0,BS,BS),ORANGE,None,text=None,**BUTTON_STYLE)
+			# button_s1.rect.center = (norm - BS +BS*i, 200)
+			self.group_solution.append(Button((0,0,BS,BS),ORANGE,None,text=None,**BUTTON_STYLE))
+			self.group_solution[-1].rect.center = (norm - BS +BS*i, 200)
+		
+
+		# self.group_solution.append(self.button_s1) #, self.button_s2, self.button_s3)
+		# self.group_solution.append(self.button_s2)
+		# self.group_solution.append(self.button_s3)
+
+	def process_buttons(self, pos):
+		if self.button_up.rect.collidepoint(pos):
+			self.code.append("UP")
+		elif self.button_down.rect.collidepoint(pos):
+			self.code.append("DOWN")
+		elif self.button_left.rect.collidepoint(pos):
+			self.code.append("LEFT")
+		elif self.button_right.rect.collidepoint(pos):
+			self.code.append("RIGHT")
+		elif self.button_f1.rect.collidepoint(pos):
+			self.code.append("F1")
+
+	def load_solution(self):
+		if self.code != []:
+			for i in range(len(self.code)):
+				if self.code[i] == "F1":
+					color = GREEN
+				else:
+					color = BLUE
+				rect = self.group_solution[i].rect.center
+				self.group_solution[i] = Button((0,0,BS,BS),color,None,text=self.code[i],**BUTTON_STYLE)
+				self.group_solution[i].rect.center = rect
 
 	def CodeInput(self):
-		self.board = Board(self.screen)
+
+		txt = " -=Press [SPACE] to Play=-"
+		txt = self.font2.render(txt, True, GREEN)
+		txt_center = (
+            SCREEN_WIDTH + SCREEN_WIDTH//4 - txt.get_width() // 2,\
+				 300 - txt.get_height() // 2
+        )
+
+		
 		self.right = RIGHT()
 		self.down = DOWN()
 		self.up = UP()
 		self.left = LEFT()
 
 		self.OPS = {
-			"up": self.up,
-			"down": self.down,
-			"left": self.left,
-			"right": self.right
+			"UP": self.up,
+			"DOWN": self.down,
+			"LEFT": self.left,
+			"RIGHT": self.right
 		}
-
-		self.code = ["down", "left", "f1"]
+		c, cin = 0, True
+		self.code = []
+		
 		running = True
 		while running:
 			for event in pygame.event.get():
@@ -52,30 +128,38 @@ class Game():
 					if event.key == pygame.K_ESCAPE:
 						running = False
 					if event.key == pygame.K_SPACE:
-						opt = True
+						return 1
 				if event.type == pygame.MOUSEBUTTONDOWN:
-					if pygame.mouse.get_pressed()[0]:
-						p = rev_rect(pygame.mouse.get_pos())
-						self.board.ar[p[0]][p[1]] = -1
+					if cin and pygame.mouse.get_pressed()[0]:
+						self.process_buttons(pygame.mouse.get_pos())
+						c += 1
+						if c == self.board.op_max:
+							cin = False
+						self.load_solution()
 			
-			self.screen.fill(WHITE)
+			self.screen.fill(WHITE)			
 			self.screen.blit(self.right_menu, (SCREEN_WIDTH, 0))
-			self.board.draw2()
+			self.screen.blit(txt, txt_center)
+			for b in self.group_button:
+				b.update(self.screen)
+			for b in self.group_solution:
+				b.update(self.screen)
+			self.board.draw()
 
 			pygame.display.flip()
-			self.clock.tick(3)
+			self.clock.tick(30)
 
 	def Play(self):	
 		
 		# self.board.init_level_test()
 		self.board.init_level_1()
 		self.list_actions = []
-		if is_in_list(self.code, "f1"):
+		if is_in_list(self.code, "F1"):
 			flag = True
 		else:
 			self.get_list()
 			flag = False
-		opt = False
+		opt = True
 		running = True
 		while running:
 			for event in pygame.event.get():
@@ -84,8 +168,8 @@ class Game():
 				if event.type == pygame.KEYDOWN:
 					if event.key == pygame.K_ESCAPE:
 						running = False
-					if event.key == pygame.K_SPACE:
-						opt = True
+					# if event.key == pygame.K_SPACE:
+					# 	opt = True
 				if event.type == pygame.MOUSEBUTTONDOWN:
 					if pygame.mouse.get_pressed()[0]:
 						p = rev_rect(pygame.mouse.get_pos())
@@ -107,6 +191,10 @@ class Game():
 
 			self.screen.fill(WHITE)
 			self.screen.blit(self.right_menu, (SCREEN_WIDTH, 0))
+			for b in self.group_button:
+				b.update(self.screen)
+			for b in self.group_solution:
+				b.update(self.screen)
 			self.board.draw()
 
 			pygame.display.flip()
@@ -114,7 +202,7 @@ class Game():
 
 	def get_list(self):
 		for i in range(len(self.code)):
-			if self.code[i] == "f1":
+			if self.code[i] == "F1":
 				for j in [k for k in self.code[:i]]:
 					self.list_actions.append(j)
 			else:
@@ -132,6 +220,12 @@ class Game():
             SCREEN_WIDTH + SCREEN_WIDTH//4 - txt.get_width() // 2,\
 				 50 - txt.get_height() // 2
         )
+		txt2 = " -=Press [SPACE] to Play=-"
+		txt2 = self.font2.render(txt2, True, GREEN)
+		txt_center2 = (
+            SCREEN_WIDTH + SCREEN_WIDTH//4 - txt.get_width() // 2,\
+				 300 - txt.get_height() // 2
+        )
 		running = True
 		while running:
 			for event in pygame.event.get():
@@ -140,17 +234,22 @@ class Game():
 				if event.type == pygame.KEYDOWN:
 					if event.key == pygame.K_ESCAPE:
 						running = False
+						return -1
+					if event.key == pygame.K_SPACE:
+						return 1
 				if event.type == pygame.MOUSEBUTTONDOWN:
 					if pygame.mouse.get_pressed()[0]:
 						p = rev_rect(pygame.mouse.get_pos())
-						self.board.ar[p[0]][p[1]] = -1
 			self.screen.fill(WHITE)
 			# self.right_menu.blit(txt, (SCREEN_WIDTH//4 - txt.get_width(), 50 - txt.get_height()//2))
 			self.screen.blit(self.right_menu, (SCREEN_WIDTH, 0))
 			self.board.draw()
 			self.screen.blit(txt, txt_center)
+			if opt == 1:
+				self.screen.blit(txt2, txt_center2)
 			pygame.display.flip()
 			self.clock.tick(2)
+		return -1
 
 
 if __name__ == '__main__':
