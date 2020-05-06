@@ -67,6 +67,7 @@ class Board():
 		self.P = (tx+2,ty+6)
 
 	def init_level_1(self):
+		# self.init_arena()
 		self.op_max = 2
 		tx, ty = 4, 2
 		self.ar[tx+6][ty+2] = 0
@@ -85,6 +86,7 @@ class Board():
 		self.P = (tx+6,ty+10)
 
 	def init_level_2(self):
+		# self.init_arena()
 		self.op_max = 3
 		tx, ty = 4, 2
 		self.ar[tx+6][ty+2] = 0
@@ -103,20 +105,52 @@ class Board():
 		self.P = (tx+2,ty+6)
 
 	def init_level_3(self):
-		self.op_max = 3
+		# self.init_arena()
+		self.op_max = 6
 		tx, ty = 4, 2
-		self.ar[tx+6][ty+2] = 0
-		self.ar[tx+6][ty+3] = 0
-		self.ar[tx+5][ty+3] = 0
-		self.ar[tx+5][ty+4] = 0
-		self.ar[tx+4][ty+4] = 0
-		self.ar[tx+4][ty+5] = 0
+		self.ar[tx+1][ty+1] = 0
+		self.ar[tx+1][ty+2] = 0
+		self.ar[tx+1][ty+3] = 0
+		self.ar[tx+2][ty+3] = 0
+		self.ar[tx+2][ty+4] = 0
+		self.ar[tx+3][ty+4] = 0
 		self.ar[tx+3][ty+5] = 0
 		self.ar[tx+3][ty+6] = 0
-		self.ar[tx+2][ty+6] = 0
+		self.ar[tx+4][ty+6] = 0
+		self.ar[tx+4][ty+7] = 0
+		self.ar[tx+5][ty+7] = 0
+		self.ar[tx+5][ty+8] = 0
+		self.ar[tx+5][ty+9] = 0
+		self.ar[tx+6][ty+9] = 0
+		self.ar[tx+6][ty+10] = 0
+		self.ar[tx+7][ty+10] = 0
+
 		##
-		self.ar[tx+6][ty+2] = 1
-		self.p = (tx+6,ty+2)
-		self.ar[tx+2][ty+6] = 3
-		self.P = (tx+2,ty+6)
+		self.ar[tx+1][ty+1] = 1
+		self.p = (tx+1,ty+1)
+		self.ar[tx+7][ty+10] = 3
+		self.P = (tx+7,ty+10)
+
+	def init_level_4(self):
+		# self.init_arena()
+		self.op_max = 7
+		tx, ty = 4, 2
+		self.ar[tx+1][ty+1] = 0
+		self.ar[tx+2][ty+1] = 0
+		self.ar[tx+3][ty+1] = 0
+		self.ar[tx+3][ty+2] = 0
+		self.ar[tx+3][ty+3] = 0
+		self.ar[tx+2][ty+3] = 0
+		self.ar[tx+2][ty+4] = 0
+		self.ar[tx+3][ty+4] = 0
+		self.ar[tx+4][ty+4] = 0
+		self.ar[tx+4][ty+5] = 0
+		self.ar[tx+4][ty+6] = 0
+		self.ar[tx+3][ty+6] = 0
+		self.ar[tx+3][ty+7] = 0
+		##
+		self.ar[tx+1][ty+1] = 1
+		self.p = (tx+1,ty+1)
+		self.ar[tx+3][ty+7] = 3
+		self.P = (tx+3,ty+7)
 

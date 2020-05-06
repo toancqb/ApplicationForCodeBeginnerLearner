@@ -19,23 +19,33 @@ class Game():
 		self.right_menu.fill(BLACK)
 		self.clock = pygame.time.Clock()
 		self.font = pygame.font.SysFont("comicsansms", 30)
-		self.font2 = pygame.font.SysFont("comicsansms", 35)
+		self.font2 = pygame.font.SysFont("comicsansms", 30)
 
 		self.board = Board(self.screen)
 		self.group_button = []
 		self.group_solution = []
 		self.init_buttons()
-		self.init_solution()
-		
+		self.group_level = [self.board.init_level_1,self.board.init_level_2,\
+			self.board.init_level_3, self.board.init_level_4]
+
+		level = 0
 		running = True
 		while running:
-
+			self.board.init_arena()
+			if level == len(self.group_level):
+				break
+			self.group_level[level]()
+			# self.code = []
+			
+			self.init_solution()
+		
 			self.CodeInput()
 
 			opt = self.Play()
 			opt2 = self.Game_Over(opt)
 			if opt2 == -1:
 				running = False
+			level += 1
 
 		pygame.quit()
 
@@ -59,18 +69,11 @@ class Game():
 		self.group_button = [self.button_up,self.button_down,self.button_left,self.button_right,self.button_f1]
 
 	def init_solution(self):
-		self.board.init_level_1()
+		self.group_solution = []
 		norm = SCREEN_WIDTH+SCREEN_WIDTH//4
 		for i in range(self.board.op_max):
-			# button_s1 = Button((0,0,BS,BS),ORANGE,None,text=None,**BUTTON_STYLE)
-			# button_s1.rect.center = (norm - BS +BS*i, 200)
 			self.group_solution.append(Button((0,0,BS,BS),ORANGE,None,text=None,**BUTTON_STYLE))
 			self.group_solution[-1].rect.center = (norm - BS +BS*i, 200)
-		
-
-		# self.group_solution.append(self.button_s1) #, self.button_s2, self.button_s3)
-		# self.group_solution.append(self.button_s2)
-		# self.group_solution.append(self.button_s3)
 
 	def process_buttons(self, pos):
 		if self.button_up.rect.collidepoint(pos):
@@ -136,6 +139,7 @@ class Game():
 						if c == self.board.op_max:
 							cin = False
 						self.load_solution()
+						print(self.code)
 			
 			self.screen.fill(WHITE)			
 			self.screen.blit(self.right_menu, (SCREEN_WIDTH, 0))
@@ -151,8 +155,6 @@ class Game():
 
 	def Play(self):	
 		
-		# self.board.init_level_test()
-		self.board.init_level_1()
 		self.list_actions = []
 		if is_in_list(self.code, "F1"):
 			flag = True
@@ -170,10 +172,9 @@ class Game():
 						running = False
 					# if event.key == pygame.K_SPACE:
 					# 	opt = True
-				if event.type == pygame.MOUSEBUTTONDOWN:
-					if pygame.mouse.get_pressed()[0]:
-						p = rev_rect(pygame.mouse.get_pos())
-						self.board.ar[p[0]][p[1]] = -1
+				# if event.type == pygame.MOUSEBUTTONDOWN:
+				# 	if pygame.mouse.get_pressed()[0]:
+				# 		p = rev_rect(pygame.mouse.get_pos())
 			
 			if opt:
 				if flag:

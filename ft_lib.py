@@ -7,6 +7,7 @@
 
 from define import *
 import pygame as pg
+import random
 
 def check_valid(nx, ny):
 	if nx >= 0 and nx < PX and ny >=0 and ny < PY:
