@@ -26,7 +26,8 @@ class Game():
 		self.group_solution = []
 		self.init_buttons()
 		self.group_level = [self.board.init_level_1,self.board.init_level_2,\
-			self.board.init_level_3, self.board.init_level_4]
+			self.board.init_level_3,self.board.init_level_4,self.board.init_level_5,\
+				self.board.init_level_6,self.board.init_level_7]
 
 		level = 0
 		running = True
@@ -78,7 +79,7 @@ class Game():
 		self.group_solution = []
 		norm = SCREEN_WIDTH+SCREEN_WIDTH//4
 		for i in range(self.board.op_max):
-			self.group_solution.append(Button((0,0,BS,BS),ORANGE,None,text=None,**BUTTON_STYLE))
+			self.group_solution.append(Button((0,0,BS,BS),WHITE,None,text=None,**BUTTON_STYLE2))
 			self.group_solution[-1].rect.center = (norm - BS +BS*i, 200)
 
 	def process_buttons(self, pos):
@@ -99,9 +100,9 @@ class Game():
 				if self.code[i] == "F1":
 					color = GREEN
 				else:
-					color = BLUE
+					color = WHITE
 				rect = self.group_solution[i].rect.center
-				self.group_solution[i] = Button((0,0,BS,BS),color,None,text=self.code[i],**BUTTON_STYLE)
+				self.group_solution[i] = Button((0,0,BS,BS),color,None,text=self.code[i],**BUTTON_STYLE2)
 				self.group_solution[i].rect.center = rect
 
 	def CodeInput(self):
@@ -109,7 +110,7 @@ class Game():
 		txt = " -=Press [SPACE] to Play=-"
 		txt = self.font2.render(txt, True, GREEN)
 		txt_center = (
-            SCREEN_WIDTH + SCREEN_WIDTH//4 - txt.get_width() // 2,\
+            SCREEN_WIDTH + SCREEN_WIDTH//4 - txt.get_width(),\
 				 300 - txt.get_height() // 2
         )
 
