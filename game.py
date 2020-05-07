@@ -31,11 +31,15 @@ class Game():
 		level = 0
 		running = True
 		while running:
-			self.board.init_arena()
+			for event in pygame.event.get():
+				if event.type == pygame.QUIT:
+					break
+				if event.type == pygame.KEYDOWN:
+					if event.key == pygame.K_ESCAPE:
+						break
 			if level == len(self.group_level):
 				break
 			self.group_level[level]()
-			# self.code = []
 			
 			self.init_solution()
 		
@@ -44,6 +48,8 @@ class Game():
 			opt = self.Play()
 			opt2 = self.Game_Over(opt)
 			if opt2 == -1:
+				continue
+			elif opt2 == -2:
 				running = False
 			level += 1
 
@@ -126,10 +132,10 @@ class Game():
 		while running:
 			for event in pygame.event.get():
 				if event.type == pygame.QUIT:
-					running = False
+					break
 				if event.type == pygame.KEYDOWN:
 					if event.key == pygame.K_ESCAPE:
-						running = False
+						break
 					if event.key == pygame.K_SPACE:
 						return 1
 				if event.type == pygame.MOUSEBUTTONDOWN:
@@ -139,19 +145,30 @@ class Game():
 						if c == self.board.op_max:
 							cin = False
 						self.load_solution()
-						print(self.code)
 			
-			self.screen.fill(WHITE)			
-			self.screen.blit(self.right_menu, (SCREEN_WIDTH, 0))
-			self.screen.blit(txt, txt_center)
-			for b in self.group_button:
-				b.update(self.screen)
-			for b in self.group_solution:
-				b.update(self.screen)
-			self.board.draw()
+			self.render_CodeInput(txt, txt_center)
 
 			pygame.display.flip()
 			self.clock.tick(30)
+
+	def render_CodeInput(self, txt, txt_center):
+		self.screen.fill(WHITE)			
+		self.screen.blit(self.right_menu, (SCREEN_WIDTH, 0))
+		self.screen.blit(txt, txt_center)
+		for b in self.group_button:
+			b.update(self.screen)
+		for b in self.group_solution:
+			b.update(self.screen)
+		self.board.draw()
+
+	def render_Play(self):
+		self.screen.fill(WHITE)
+		self.screen.blit(self.right_menu, (SCREEN_WIDTH, 0))
+		for b in self.group_button:
+			b.update(self.screen)
+		for b in self.group_solution:
+			b.update(self.screen)
+		self.board.draw()
 
 	def Play(self):	
 		
@@ -170,11 +187,7 @@ class Game():
 				if event.type == pygame.KEYDOWN:
 					if event.key == pygame.K_ESCAPE:
 						running = False
-					# if event.key == pygame.K_SPACE:
-					# 	opt = True
-				# if event.type == pygame.MOUSEBUTTONDOWN:
-				# 	if pygame.mouse.get_pressed()[0]:
-				# 		p = rev_rect(pygame.mouse.get_pos())
+					
 			
 			if opt:
 				if flag:
@@ -190,13 +203,7 @@ class Game():
 					elif self.board.p == self.board.P:
 						return 1
 
-			self.screen.fill(WHITE)
-			self.screen.blit(self.right_menu, (SCREEN_WIDTH, 0))
-			for b in self.group_button:
-				b.update(self.screen)
-			for b in self.group_solution:
-				b.update(self.screen)
-			self.board.draw()
+			self.render_Play()
 
 			pygame.display.flip()
 			self.clock.tick(3)
@@ -231,13 +238,12 @@ class Game():
 		while running:
 			for event in pygame.event.get():
 				if event.type == pygame.QUIT:
-					running = False
+					return -2					
 				if event.type == pygame.KEYDOWN:
 					if event.key == pygame.K_ESCAPE:
-						running = False
-						return -1
+						return -2
 					if event.key == pygame.K_SPACE:
-						return 1
+						return opt
 				if event.type == pygame.MOUSEBUTTONDOWN:
 					if pygame.mouse.get_pressed()[0]:
 						p = rev_rect(pygame.mouse.get_pos())
