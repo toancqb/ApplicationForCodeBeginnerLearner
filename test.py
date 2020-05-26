@@ -1,69 +1,41 @@
+# from ft_lib import *
+# from define import *
+# import pygame
 
 
-class RIGHT():
-	def __init__(self):
-		pass
+# pygame.init()
+# screen = pygame.display.set_mode((200,200))
+# screen.fill(WHITE)
+# clock = pygame.time.Clock()
+# button = Button((0,0,BS,BS),BLACK,None,text="X",**BUTTON_STYLE2)
+# button.rect.center = (100,100)
 
-	def run(self, ar, p):
-		x, y = p
-		if check_valid(x+1, y):
-			if ar[x+1][y] == 0:
-				ar[x+1][y] = ar[x][y]
-				ar[x][y] = 0
-				return (x+1,y)
-			elif ar[x+1][y] == 3:
-				ar[x+1][y] = ar[x][y]
-				ar[x][y] = 0
-				return (PX,PY)
-		return ()
+# i = 0
+# running = True
+# while running:
+# 	for event in pygame.event.get():
+# 				if event.type == pygame.QUIT:
+# 					running = False
+# 				if event.type == pygame.KEYDOWN:
+# 					if event.key == pygame.K_ESCAPE:
+# 						running = False
+# 				if event.type == pygame.MOUSEBUTTONDOWN:
+# 					if pygame.mouse.get_pressed()[0]:
+# 						if i % 2 == 0:
+# 							button.color = RED
+# 						else:
+# 							button.color = BLACK
+# 						i += 1
+						
+	
+# 	screen.fill(WHITE)
+# 	button.update(screen)
+# 	pygame.display.flip()
+# 	clock.tick(30)
 
-class LEFT():
-	def __init__(self):
-		pass
+#123456789
 
-	def run(self, ar, p):
-		x, y = p
-		if check_valid(x-1, y):
-			if ar[x-1][y] == 0:
-				ar[x-1][y] = ar[x][y]
-				ar[x][y] = 0
-				return (x-1,y)
-			elif ar[x-1][y] == 3:
-				ar[x-1][y] = ar[x][y]
-				ar[x][y] = 0
-				return (PX,PY)
-		return ()
-		
-class DOWN():
-	def __init__(self):
-		pass
+#op = ('+', '-', '0')
 
-	def run(self, ar, p):
-		x, y = p
-		if check_valid(x, y+1):
-			if ar[x][y+1] == 0:
-				ar[x][y+1] = ar[x][y]
-				ar[x][y] = 0
-				return (x,y+1)
-			elif ar[x][y+1] == 3:
-				ar[x][y+1] = ar[x][y]
-				ar[x][y] = 0
-				return (PX,PY)
-		return ()
 
-class UP():
-	def __init__(self):
-		pass
 
-	def run(self, ar, p):
-		x, y = p
-		if check_valid(x, y-1):
-			if ar[x][y-1] == 0:
-				ar[x][y-1] = ar[x][y]
-				ar[x][y] = 0
-				return (x,y-1)
-			elif ar[x][y-1] == 3:
-				ar[x][y-1] = ar[x][y]
-				ar[x][y] = 0
-				return (PX,PY)
-		return ()

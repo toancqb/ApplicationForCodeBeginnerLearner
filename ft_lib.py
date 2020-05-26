@@ -43,6 +43,7 @@ class Button():
         self.clicked_text = None
         self.process_kwargs(kwargs)
         self.render_text()
+        self.nc = 0
 
     def process_kwargs(self,kwargs):
         """Various optional customization you can change by passing kwargs."""
