@@ -65,6 +65,7 @@ class Game():
 				running = False
 			level += 1
 
+		self.Finished()
 		pygame.quit()
 
 	def init_buttons(self):
@@ -203,8 +204,7 @@ class Game():
 					running = False
 				if event.type == pygame.KEYDOWN:
 					if event.key == pygame.K_ESCAPE:
-						running = False
-					
+						running = False					
 			
 			if opt:
 				if flag:
@@ -274,6 +274,36 @@ class Game():
 			pygame.display.flip()
 			self.clock.tick(2)
 		return -1
+
+	def Finished(self):
+		txt = "-= Congratulation! =-"
+		txt = self.font.render(txt, True, GREEN)
+		txt_center = (
+            SCREEN_WIDTH + SCREEN_WIDTH//4 - txt.get_width() // 2,\
+				 50 - txt.get_height() // 2
+        )
+		txt2 = " -=Press [ESC] to Exit=-"
+		txt2 = self.font2.render(txt2, True, GREEN)
+		txt_center2 = (
+            SCREEN_WIDTH + SCREEN_WIDTH//4 - txt.get_width() // 2,\
+				 300 - txt.get_height() // 2
+        )
+		running = True
+		while running:
+			for event in pygame.event.get():
+				if event.type == pygame.QUIT:
+					running = False		
+				if event.type == pygame.KEYDOWN:
+					if event.key == pygame.K_ESCAPE:
+						running = False
+			self.screen.fill(WHITE)
+			# self.right_menu.blit(txt, (SCREEN_WIDTH//4 - txt.get_width(), 50 - txt.get_height()//2))
+			self.screen.blit(self.right_menu, (SCREEN_WIDTH, 0))
+			self.board.draw()
+			self.screen.blit(txt, txt_center)
+			self.screen.blit(txt2, txt_center2)
+			pygame.display.flip()
+			self.clock.tick(2)
 
 
 if __name__ == '__main__':
