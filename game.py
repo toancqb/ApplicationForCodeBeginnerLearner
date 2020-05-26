@@ -50,6 +50,7 @@ class Game():
 					if event.key == pygame.K_ESCAPE:
 						break
 			if level == len(self.group_level):
+				self.Finished()
 				break
 			self.group_level[level]()
 			
@@ -65,7 +66,6 @@ class Game():
 				running = False
 			level += 1
 
-		self.Finished()
 		pygame.quit()
 
 	def init_buttons(self):
@@ -112,10 +112,6 @@ class Game():
 		
 		if self.code != []:
 			for i in range(len(self.code)):
-				# if self.code[i] == "F1":
-				# 	color = GREEN
-				# else:
-				# 	color = WHITE
 				rect = self.group_solution[i].rect.center
 				color = self.group_solution[i].color
 				self.group_solution[i] = Button((0,0,BS,BS),color,None,text=self.code[i],**BUTTON_STYLE2)

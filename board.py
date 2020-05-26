@@ -58,7 +58,7 @@ class Board():
 					pygame.draw.rect(self.screen, BLACK, (x*CELL,y*CELL, CELL, CELL))
 					pygame.draw.rect(self.screen, ORANGE, (x*CELL+1,y*CELL+1, CELL-2, CELL-2))
 				elif self.ar[x][y] == -1:
-					pygame.draw.rect(self.screen, GRIS_B, (x*CELL,y*CELL, CELL, CELL))
+					pygame.draw.rect(self.screen, BLUE, (x*CELL,y*CELL, CELL, CELL))
 					#pygame.draw.rect(self.screen, GRIS_B, (x*CELL+1,y*CELL+1, CELL-2, CELL-2))
 
 	def init_arena(self):
