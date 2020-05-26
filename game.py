@@ -90,6 +90,8 @@ class Game():
 	def init_solution(self):
 		self.group_solution = []
 		norm = SCREEN_WIDTH+SCREEN_WIDTH//4
+		self.group_button.append(Button((0,0,BS,BS),GREEN,change_color,text="F1",**BUTTON_STYLE))
+		self.group_button[-1].rect.center = (norm - BS*2,200)
 		for i in range(self.board.op_max):
 			self.group_solution.append(Button((0,0,BS,BS),WHITE,None,text=None,**BUTTON_STYLE2))
 			self.group_solution[-1].rect.center = (norm - BS +BS*i, 200)
