@@ -1,3 +1,9 @@
+###############################
+## Author: TRAN Quang Toan   ##
+## Project APP_4_0_CODE      ##
+## Version 1                 ##
+## 13 Apr 2020               ##
+###############################
 
 from define import *
 from ft_lib import *

@@ -1,6 +1,6 @@
 ###############################
 ## Author: TRAN Quang Toan   ##
-## Project Game of Life      ##
+## Project APP_4_0_CODE      ##
 ## Version 1                 ##
 ## 13 Apr 2020               ##
 ###############################
@@ -20,7 +20,6 @@ class Game():
 		self.clock = pygame.time.Clock()
 		self.font = pygame.font.SysFont("comicsansms", 30)
 		self.font2 = pygame.font.SysFont("comicsansms", 25)
-
 
 		self.right = RIGHT()
 		self.down = DOWN()
@@ -187,8 +186,11 @@ class Game():
 	def Play(self):	
 		#############################################
 		self.list_actions = []
+		empty_code = False
 		if is_in_list(self.code, "F1"):
 			flag = True
+			if self.code[0] == "F1":
+				empty_code = True
 		else:
 			self.get_list()
 			flag = False
@@ -207,7 +209,7 @@ class Game():
 			if opt:
 				if flag:
 					self.get_list()
-				if len(self.list_actions) == 0:
+				if len(self.list_actions) == 0 or empty_code:
 					opt = False
 					return -1
 				else:
