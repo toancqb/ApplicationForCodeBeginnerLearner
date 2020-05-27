@@ -48,36 +48,50 @@ class Board():
 
 		for y in range(PY):
 			for x in range(PX):
-				if self.ar[x][y] == 1:
-					pygame.draw.rect(self.screen, ORANGE, (x*CELL,y*CELL, CELL, CELL))
-					pygame.draw.rect(self.screen, BLACK, (x*CELL+1,y*CELL+1, CELL-2, CELL-2))
-				elif self.ar[x][y] == 2:
+				# if self.ar[x][y] == 1:
+				# 	pygame.draw.rect(self.screen, ORANGE, (x*CELL,y*CELL, CELL, CELL))
+				# 	pygame.draw.rect(self.screen, BLACK, (x*CELL+1,y*CELL+1, CELL-2, CELL-2))
+				if self.ar[x][y] == 2:
 					pygame.draw.rect(self.screen, GRIS, (x*CELL,y*CELL, CELL, CELL))
 					pygame.draw.rect(self.screen, RED_B, (x*CELL+1,y*CELL+1, CELL-2, CELL-2))
-				elif self.ar[x][y] == 3:
-					pygame.draw.rect(self.screen, BLACK, (x*CELL,y*CELL, CELL, CELL))
-					pygame.draw.rect(self.screen, ORANGE, (x*CELL+1,y*CELL+1, CELL-2, CELL-2))
+				# elif self.ar[x][y] == 3:
+				# 	pygame.draw.rect(self.screen, BLACK, (x*CELL,y*CELL, CELL, CELL))
+				# 	pygame.draw.rect(self.screen, ORANGE, (x*CELL+1,y*CELL+1, CELL-2, CELL-2))
 				elif self.ar[x][y] == -1:
 					pygame.draw.rect(self.screen, BLUE, (x*CELL,y*CELL, CELL, CELL))
 					#pygame.draw.rect(self.screen, GRIS_B, (x*CELL+1,y*CELL+1, CELL-2, CELL-2))
+		if self.p != ():
+			pygame.draw.rect(self.screen, ORANGE, (self.p[0]*CELL,self.p[1]*CELL, CELL, CELL))
+			pygame.draw.rect(self.screen, BLACK, (self.p[0]*CELL+1,self.p[1]*CELL+1, CELL-2, CELL-2))
+		if self.P != ():
+			pygame.draw.rect(self.screen, BLACK, (self.P[0]*CELL,self.P[1]*CELL, CELL, CELL))
+			pygame.draw.rect(self.screen, ORANGE, (self.P[0]*CELL+1,self.P[1]*CELL+1, CELL-2, CELL-2))
 
 	def init_arena(self):
 		self.ar = [[ -1 for i in range(PY)] for i in range(PX)]
 
 	def init_level_test(self):
+		self.init_arena()
+		self.op_max = 2
 		tx, ty = 4, 2
-		self.ar = [[ 0 for i in range(PY)] for i in range(PX)]
+		self.ar[tx+6][ty+2] = 2
+		self.ar[tx+6][ty+3] = 2
+		self.ar[tx+6][ty+4] = 2
+		self.ar[tx+6][ty+5] = 2
+		self.ar[tx+6][ty+6] = 2
+		self.ar[tx+6][ty+7] = 0
+		self.ar[tx+6][ty+8] = 2
+		self.ar[tx+6][ty+9] = 2
+		self.ar[tx+6][ty+10] = 2
 		##
-		self.ar[tx+6][ty+2] = 1
-		self.p = (tx+6,ty+2)
-		self.ar[tx+2][ty+6] = 3
-		self.P = (tx+2,ty+6)
+		self.p = (tx+6, ty+2)
+		self.P = (tx+6, ty+10)
 
 	def init_level_1(self):
 		self.init_arena()
 		self.op_max = 2
 		tx, ty = 4, 2
-		self.ar[tx+6][ty+2] = 1
+		self.ar[tx+6][ty+2] = 0
 		self.ar[tx+6][ty+3] = 0
 		self.ar[tx+6][ty+4] = 0
 		self.ar[tx+6][ty+5] = 0
@@ -85,7 +99,7 @@ class Board():
 		self.ar[tx+6][ty+7] = 0
 		self.ar[tx+6][ty+8] = 0
 		self.ar[tx+6][ty+9] = 0
-		self.ar[tx+6][ty+10] = 3
+		self.ar[tx+6][ty+10] = 0
 		##
 		self.p = (tx+6, ty+2)
 		self.P = (tx+6, ty+10)

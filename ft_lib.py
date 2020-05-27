@@ -20,6 +20,12 @@ def is_in_list(lst, s):
 			return True
 	return False
 
+def is_in_list2(lst, s):
+    for i in lst:
+        if i[0] == s:
+            return True
+    return False
+
 def rev_rect(p):
 	return (p[0] // CELL, p[1] // CELL)
 

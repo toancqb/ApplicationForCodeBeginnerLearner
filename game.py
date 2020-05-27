@@ -121,9 +121,9 @@ class Game():
 		#############################################
 		self.list_actions = []
 		empty_code = False
-		if is_in_list(self.code, "F1"):
+		if is_in_list2(self.code, "F1"):
 			flag = True
-			if self.code[0] == "F1":
+			if self.code[0][0] == "F1":
 				empty_code = True
 		else:
 			self.get_list()
@@ -147,7 +147,7 @@ class Game():
 					return -1
 				else:
 					op = self.list_actions.pop(0)
-					self.board.p = self.OPS[op].run(self.board.ar, self.board.p)
+					self.board.p = self.OPS[op[0]].run(self.board.ar, self.board.p, op[1])
 					if self.board.p == ():
 						return -1
 					elif self.board.p == self.board.P:
@@ -265,19 +265,19 @@ class Game():
 
 	def process_buttons(self, pos):
 		if self.button_up.rect.collidepoint(pos):
-			self.code.append("UP")
+			self.code.append(["UP", None])
 			return True
 		if self.button_down.rect.collidepoint(pos):
-			self.code.append("DOWN")
+			self.code.append(["DOWN", None])
 			return True
 		if self.button_left.rect.collidepoint(pos):
-			self.code.append("LEFT")
+			self.code.append(["LEFT", None])
 			return True
 		if self.button_right.rect.collidepoint(pos):
-			self.code.append("RIGHT")
+			self.code.append(["RIGHT", None])
 			return True
 		if self.button_f1.rect.collidepoint(pos):
-			self.code.append("F1")
+			self.code.append(["F1", None])
 			return True
 		return False
 
@@ -287,12 +287,13 @@ class Game():
 			for i in range(len(self.code)):
 				rect = self.group_solution[i].rect.center
 				color = self.group_solution[i].color
-				self.group_solution[i] = Button((0,0,BS,BS),color,None,text=self.code[i],**BUTTON_STYLE2)
+				self.group_solution[i] = Button((0,0,BS,BS),color,None,text=self.code[i][0],**BUTTON_STYLE2)
 				self.group_solution[i].rect.center = rect
+				self.code[i][1] = color
 
 	def get_list(self): ###############################
 		for i in range(len(self.code)):
-			if self.code[i] == "F1":
+			if self.code[i][0] == "F1":
 				for j in [k for k in self.code[:i]]:
 					self.list_actions.append(j)
 			else:

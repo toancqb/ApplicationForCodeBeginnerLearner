@@ -24,6 +24,8 @@ RED_P = (255, 51, 51)
 GRIS_B = (192, 192, 192)
 GRIS = (128, 128, 128)
 
+CC = [WHITE, None, RED_B, None]
+
 BUTTON_STYLE = {"hover_color" : BLUE,\
                 "clicked_color" : GREEN,\
                 "clicked_font_color" : BLACK,\
