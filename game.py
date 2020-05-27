@@ -40,6 +40,8 @@ class Game():
 			self.board.init_level_3,self.board.init_level_4,self.board.init_level_5,\
 				self.board.init_level_6,self.board.init_level_7]
 
+
+	def Game_Play(self):
 		level = 0
 		running = True
 		while running:
@@ -68,54 +70,6 @@ class Game():
 
 		pygame.quit()
 
-	def init_buttons(self):
-		norm = SCREEN_WIDTH+SCREEN_WIDTH//4
-		self.button_up = Button((0,0,BS,BS),RED,change_color,text="UP",**BUTTON_STYLE)
-		self.button_up.rect.center = (norm - BS*2,100)
-
-		self.button_down = Button((0,0,BS,BS),RED,change_color,text="DOWN",**BUTTON_STYLE)
-		self.button_down.rect.center = (norm - BS,100)
-
-		self.button_left = Button((0,0,BS,BS),RED,change_color,text="LEFT",**BUTTON_STYLE)
-		self.button_left.rect.center = (norm,100)
-
-		self.button_right = Button((0,0,BS,BS),RED,change_color,text="RIGHT",**BUTTON_STYLE)
-		self.button_right.rect.center = (norm + BS,100)
-
-		self.button_f1 = Button((0,0,BS,BS),GREEN,change_color,text="F1",**BUTTON_STYLE)
-		self.button_f1.rect.center = (norm + BS*2,100)
-
-		self.group_button = [self.button_up,self.button_down,self.button_left,self.button_right,self.button_f1]
-
-	def init_solution(self):
-		self.group_solution = []
-		norm = SCREEN_WIDTH+SCREEN_WIDTH//4
-		self.group_button.append(Button((0,0,BS,BS),GREEN,change_color,text="F1",**BUTTON_STYLE))
-		self.group_button[-1].rect.center = (norm - BS*2,200)
-		for i in range(self.board.op_max):
-			self.group_solution.append(Button((0,0,BS,BS),WHITE,None,text=None,**BUTTON_STYLE2))
-			self.group_solution[-1].rect.center = (norm - BS +BS*i, 200)
-
-	def process_buttons(self, pos):
-		if self.button_up.rect.collidepoint(pos):
-			self.code.append("UP")
-		elif self.button_down.rect.collidepoint(pos):
-			self.code.append("DOWN")
-		elif self.button_left.rect.collidepoint(pos):
-			self.code.append("LEFT")
-		elif self.button_right.rect.collidepoint(pos):
-			self.code.append("RIGHT")
-		elif self.button_f1.rect.collidepoint(pos):
-			self.code.append("F1")
-
-	def load_solution(self, pos):
-		
-		if self.code != []:
-			for i in range(len(self.code)):
-				rect = self.group_solution[i].rect.center
-				color = self.group_solution[i].color
-				self.group_solution[i] = Button((0,0,BS,BS),color,None,text=self.code[i],**BUTTON_STYLE2)
-				self.group_solution[i].rect.center = rect
 
 	def CodeInput(self):
 
@@ -161,25 +115,6 @@ class Game():
 			pygame.display.flip()
 			self.clock.tick(30)
 
-	def render_CodeInput(self, txt, txt_center):
-		self.screen.fill(WHITE)			
-		self.screen.blit(self.right_menu, (SCREEN_WIDTH, 0))
-		self.screen.blit(txt, txt_center)
-		for b in self.group_button:
-			b.update(self.screen)
-		for b in self.group_solution:
-			b.update(self.screen)
-		self.board.draw()
-
-	def render_Play(self):
-		self.screen.fill(WHITE)
-		self.screen.blit(self.right_menu, (SCREEN_WIDTH, 0))
-		for b in self.group_button:
-			b.update(self.screen)
-		for b in self.group_solution:
-			b.update(self.screen)
-		self.board.draw()
-
 	def Play(self):	
 		#############################################
 		self.list_actions = []
@@ -220,14 +155,6 @@ class Game():
 
 			pygame.display.flip()
 			self.clock.tick(3)
-
-	def get_list(self): ###############################
-		for i in range(len(self.code)):
-			if self.code[i] == "F1":
-				for j in [k for k in self.code[:i]]:
-					self.list_actions.append(j)
-			else:
-				self.list_actions.append(self.code[i])
 
 	def Game_Over(self, opt):
 		if opt == -1:
@@ -301,6 +228,84 @@ class Game():
 			pygame.display.flip()
 			self.clock.tick(2)
 
+	def init_buttons(self):
+		norm = SCREEN_WIDTH+SCREEN_WIDTH//4
+		self.button_up = Button((0,0,BS,BS),RED,change_color,text="UP",**BUTTON_STYLE)
+		self.button_up.rect.center = (norm - BS*2,100)
+
+		self.button_down = Button((0,0,BS,BS),RED,change_color,text="DOWN",**BUTTON_STYLE)
+		self.button_down.rect.center = (norm - BS,100)
+
+		self.button_left = Button((0,0,BS,BS),RED,change_color,text="LEFT",**BUTTON_STYLE)
+		self.button_left.rect.center = (norm,100)
+
+		self.button_right = Button((0,0,BS,BS),RED,change_color,text="RIGHT",**BUTTON_STYLE)
+		self.button_right.rect.center = (norm + BS,100)
+
+		self.button_f1 = Button((0,0,BS,BS),GREEN,change_color,text="F1",**BUTTON_STYLE)
+		self.button_f1.rect.center = (norm + BS*2,100)
+
+		self.group_button = [self.button_up,self.button_down,self.button_left,self.button_right,self.button_f1]
+
+
+	def init_solution(self):
+		self.group_solution = []
+		norm = SCREEN_WIDTH+SCREEN_WIDTH//4
+		self.group_button.append(Button((0,0,BS,BS),GREEN,change_color,text="F1",**BUTTON_STYLE))
+		self.group_button[-1].rect.center = (norm - BS*2,200)
+		for i in range(self.board.op_max):
+			self.group_solution.append(Button((0,0,BS,BS),WHITE,None,text=None,**BUTTON_STYLE2))
+			self.group_solution[-1].rect.center = (norm - BS +BS*i, 200)
+
+	def process_buttons(self, pos):
+		if self.button_up.rect.collidepoint(pos):
+			self.code.append("UP")
+		elif self.button_down.rect.collidepoint(pos):
+			self.code.append("DOWN")
+		elif self.button_left.rect.collidepoint(pos):
+			self.code.append("LEFT")
+		elif self.button_right.rect.collidepoint(pos):
+			self.code.append("RIGHT")
+		elif self.button_f1.rect.collidepoint(pos):
+			self.code.append("F1")
+
+	def load_solution(self, pos):
+		
+		if self.code != []:
+			for i in range(len(self.code)):
+				rect = self.group_solution[i].rect.center
+				color = self.group_solution[i].color
+				self.group_solution[i] = Button((0,0,BS,BS),color,None,text=self.code[i],**BUTTON_STYLE2)
+				self.group_solution[i].rect.center = rect
+
+	def get_list(self): ###############################
+		for i in range(len(self.code)):
+			if self.code[i] == "F1":
+				for j in [k for k in self.code[:i]]:
+					self.list_actions.append(j)
+			else:
+				self.list_actions.append(self.code[i])
+
+	def render_CodeInput(self, txt, txt_center):
+		self.screen.fill(WHITE)			
+		self.screen.blit(self.right_menu, (SCREEN_WIDTH, 0))
+		self.screen.blit(txt, txt_center)
+		for b in self.group_button:
+			b.update(self.screen)
+		for b in self.group_solution:
+			b.update(self.screen)
+		self.board.draw()
+
+	def render_Play(self):
+		self.screen.fill(WHITE)
+		self.screen.blit(self.right_menu, (SCREEN_WIDTH, 0))
+		for b in self.group_button:
+			b.update(self.screen)
+		for b in self.group_solution:
+			b.update(self.screen)
+		self.board.draw()
+
 
 if __name__ == '__main__':
-	Game()
+	G = Game()
+	G.Game_Play()
