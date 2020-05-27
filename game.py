@@ -35,6 +35,7 @@ class Game():
 		self.board = Board(self.screen)
 		self.group_button = []
 		self.group_solution = []
+		self.group_if = []
 		self.init_buttons()
 		self.group_level = [self.board.init_level_1,self.board.init_level_2,\
 			self.board.init_level_3,self.board.init_level_4,self.board.init_level_5,\
@@ -81,7 +82,7 @@ class Game():
         )
 
 		click, c, cin = 0, 0, True
-		self.code = []
+		self.code = []		
 		
 		running = True
 		while running:
@@ -98,17 +99,18 @@ class Game():
 						for gs in self.group_solution:
 							if gs.rect.collidepoint(pygame.mouse.get_pos()):
 								if not gs.nc:
-									gs.color = BLUE
+									gs.color = RED_B
 								else:
 									gs.color = WHITE
 								gs.nc = 1 - gs.nc 
 					if cin and pygame.mouse.get_pressed()[0]:
 						pos = pygame.mouse.get_pos()
-						self.process_buttons(pos)
-						c += 1
+						if self.process_buttons(pos):
+							c += 1
 						if c == self.board.op_max:
 							cin = False
 						self.load_solution(pos)
+					print(self.code)
 			
 			self.render_CodeInput(txt, txt_center)
 
@@ -246,10 +248,11 @@ class Game():
 		self.button_f1.rect.center = (norm + BS*2,100)
 
 		self.group_button = [self.button_up,self.button_down,self.button_left,self.button_right,self.button_f1]
-
+		self.group_if = []
 
 	def init_solution(self):
 		self.group_solution = []
+		self.group_if = []
 		norm = SCREEN_WIDTH+SCREEN_WIDTH//4
 		self.group_button.append(Button((0,0,BS,BS),GREEN,change_color,text="F1",**BUTTON_STYLE))
 		self.group_button[-1].rect.center = (norm - BS*2,200)
@@ -257,17 +260,26 @@ class Game():
 			self.group_solution.append(Button((0,0,BS,BS),WHITE,None,text=None,**BUTTON_STYLE2))
 			self.group_solution[-1].rect.center = (norm - BS +BS*i, 200)
 
+			self.group_if.append(Button((0,0,BS,BS),RED_B,None,text=None,**BUTTON_STYLE2))
+			self.group_if[-1].rect.center = (norm + BS*7, 100 +BS*i)
+
 	def process_buttons(self, pos):
 		if self.button_up.rect.collidepoint(pos):
 			self.code.append("UP")
-		elif self.button_down.rect.collidepoint(pos):
+			return True
+		if self.button_down.rect.collidepoint(pos):
 			self.code.append("DOWN")
-		elif self.button_left.rect.collidepoint(pos):
+			return True
+		if self.button_left.rect.collidepoint(pos):
 			self.code.append("LEFT")
-		elif self.button_right.rect.collidepoint(pos):
+			return True
+		if self.button_right.rect.collidepoint(pos):
 			self.code.append("RIGHT")
-		elif self.button_f1.rect.collidepoint(pos):
+			return True
+		if self.button_f1.rect.collidepoint(pos):
 			self.code.append("F1")
+			return True
+		return False
 
 	def load_solution(self, pos):
 		
@@ -290,19 +302,17 @@ class Game():
 		self.screen.fill(WHITE)			
 		self.screen.blit(self.right_menu, (SCREEN_WIDTH, 0))
 		self.screen.blit(txt, txt_center)
-		for b in self.group_button:
-			b.update(self.screen)
-		for b in self.group_solution:
-			b.update(self.screen)
+		for buttons in (self.group_button, self.group_solution, self.group_if):
+			for b in buttons:
+				b.update(self.screen)
 		self.board.draw()
 
 	def render_Play(self):
 		self.screen.fill(WHITE)
 		self.screen.blit(self.right_menu, (SCREEN_WIDTH, 0))
-		for b in self.group_button:
-			b.update(self.screen)
-		for b in self.group_solution:
-			b.update(self.screen)
+		for buttons in (self.group_button, self.group_solution, self.group_if):
+			for b in buttons:
+				b.update(self.screen)
 		self.board.draw()
 
 

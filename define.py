@@ -31,6 +31,6 @@ BUTTON_STYLE = {"hover_color" : BLUE,\
 
 BUTTON_STYLE2 = {#"hover_color" : BLUE,\
                 "font_color" : BLACK,\
-                "clicked_color" : GREEN,\
+                "clicked_color" : BLUE,\
                 "clicked_font_color" : BLACK}#,\
                 #"hover_font_color" : ORANGE}
