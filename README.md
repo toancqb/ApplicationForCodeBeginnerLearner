@@ -1,7 +1,7 @@
-<br\> Author: TRAN Quang Toan   
-<br\> Project APP_4_0_CODE      
-<br\> Version 1                 
-<br\> 13 Apr 2020               
+<br/> Author: TRAN Quang Toan   
+<br/> Project APP_4_0_CODE      
+<br/> Version 1                 
+<br/> 13 Apr 2020               
 <br> #ApplicationForCodeBeginnerLearner
 <br>*) To Compile:
 <br>python3 game.py<br>
