@@ -35,8 +35,17 @@ class Game2():
 		self.group_solution = []
 		self.group_if = []
 		self.init_buttons()
-		self.group_level = [self.board.init_level_1,self.board.init_level_2,self.board.init_level_8,self.board.init_level_9]
+		self.group_level = [
+							self.board.init_level_1,\
+							self.board.init_level_2,\
+							self.board.init_level_5,\
+							self.board.init_level_6,\
+							self.board.init_level_7,\
+							self.board.init_level_8,\
+							self.board.init_level_9
+							]
 		self.dir = "10"
+		self.if_menu = False
 
 
 	def Game_Play(self):
@@ -52,7 +61,7 @@ class Game2():
 			if level == len(self.group_level):
 				self.Finished()
 				break
-			self.dir = self.group_level[level]()
+			self.dir, self.if_menu = self.group_level[level]()
 			
 			self.init_solution()
 		
@@ -107,7 +116,7 @@ class Game2():
 						if c == self.board.op_max:
 							cin = False
 						self.load_solution(pos)
-					print(self.code)
+					#print(self.code)
 			
 			self.render_CodeInput(txt, txt_center)
 
@@ -259,9 +268,9 @@ class Game2():
 		for i in range(self.board.op_max):
 			self.group_solution.append(Button((0,0,BS,BS),WHITE,None,text=None,**BUTTON_STYLE2))
 			self.group_solution[-1].rect.center = (norm - BS +BS*i, 200)
-
-			self.group_if.append(Button((0,0,BS,BS),RED_B,None,text=None,**BUTTON_STYLE2))
-			self.group_if[-1].rect.center = (norm + BS*7, 100 +BS*i)
+			if self.if_menu:
+				self.group_if.append(Button((0,0,BS,BS),RED_B,None,text=None,**BUTTON_STYLE2))
+				self.group_if[-1].rect.center = (norm + BS*7, 100 +BS*i)
 
 	def process_buttons(self, pos):
 		if self.button_go.rect.collidepoint(pos):
