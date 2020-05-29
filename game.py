@@ -145,7 +145,6 @@ class Game2():
 				else:
 					op = self.list_actions.pop(0)
 					if op[0] == "GO":
-						print self.dir
 						tmp = self.OPS[op[0]].run(self.board.ar, self.board.p, op[1], self.dir)
 						if tmp == ():
 							continue
@@ -154,9 +153,7 @@ class Game2():
 						self.board.p = tmp
 						if self.board.p == self.board.P:
 							return 1
-						print "hh"
 					else:
-						print "turn"
 						self.dir = self.OPS[op[0]].run(self.board.ar, self.board.p, op[1],self.dir)
 
 			self.render_Play()

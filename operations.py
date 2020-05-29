@@ -24,8 +24,6 @@ class RIGHT():
 			control = False
 		if check_valid(x+1, y) and control:
 			if ar[x+1][y] != -1 or ar[x+1][y] == 3:
-				#ar[x+1][y] = ar[x][y]
-				#ar[x][y] = 0
 				return (x+1,y)
 			else:
 				return (-1)
@@ -44,8 +42,6 @@ class LEFT():
 
 		if check_valid(x-1, y) and control:
 			if ar[x-1][y] != -1 or ar[x-1][y] == 3:
-				#ar[x-1][y] = ar[x][y]
-				#ar[x][y] = 0
 				return (x-1,y)
 			else:
 				return (-1)
@@ -63,8 +59,6 @@ class DOWN():
 			control = False
 		if check_valid(x, y+1) and control:
 			if ar[x][y+1] != -1 or ar[x][y+1] == 3:
-				#ar[x][y+1] = ar[x][y]
-				#ar[x][y] = 0
 				return (x,y+1)
 			else:
 				return (-1)
@@ -82,8 +76,6 @@ class UP():
 			control = False
 		if check_valid(x, y-1) and control:
 			if ar[x][y-1] != -1 or ar[x][y-1] == 3:
-				#ar[x][y-1] = ar[x][y]
-				#ar[x][y] = 0
 				return (x,y-1)
 			else:
 				return (-1)

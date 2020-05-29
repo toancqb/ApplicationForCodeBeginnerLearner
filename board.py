@@ -17,21 +17,6 @@ class Board():
 		self.st = [(1,1)]
 		self.op_max = 3
 
-	def draw2(self):
-		for i in range(PX):
-			if i % 9 == 0:
-				color = GRIS
-			else:
-				color = GRIS_B
-			pygame.draw.line(self.screen, color, (i*CELL, 0), (i*CELL, SCREEN_HEIGHT))
-		for i in range(PY):
-			if i % 9 == 0:
-				color = GRIS
-			else:
-				color = GRIS_B
-			pygame.draw.line(self.screen, color, (0, i*CELL), (SCREEN_WIDTH, i*CELL))
-
-		
 	def draw(self, dir):
 		for i in range(PX):
 			if i % 9 == 0:
