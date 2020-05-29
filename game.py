@@ -1,8 +1,8 @@
 ###############################
 ## Author: TRAN Quang Toan   ##
-## Project APP_4_0_CODE	  ##
-## Version 1				 ##
-## 13 Apr 2020			   ##
+## Project APP_4_0_CODE      ##
+## Version 1                 ##
+## 13 Apr 2020               ##
 ###############################
 
 import pygame
@@ -101,14 +101,7 @@ class Game2():
 					if event.key == pygame.K_SPACE:
 						return 1
 				if event.type == pygame.MOUSEBUTTONDOWN:
-					if pygame.mouse.get_pressed()[0]:
-						for gs in self.group_solution:
-							if gs.rect.collidepoint(pygame.mouse.get_pos()):
-								if not gs.nc:
-									gs.color = RED_B
-								else:
-									gs.color = WHITE
-								gs.nc = 1 - gs.nc 
+					self.handle_if_statement()
 					if cin and pygame.mouse.get_pressed()[0]:
 						pos = pygame.mouse.get_pos()
 						if self.process_buttons(pos):
@@ -304,6 +297,25 @@ class Game2():
 					self.list_actions.append(j)
 			else:
 				self.list_actions.append(self.code[i])
+	
+	def handle_if_statement(self):
+		if pygame.mouse.get_pressed()[0]:
+			for i in range(len(self.group_solution)):
+				if self.group_solution[i].rect.collidepoint(pygame.mouse.get_pos()):
+					if self.group_solution[i].color == RED_B:
+						self.group_solution[i].color = WHITE
+						self.group_if[i].color = WHITE
+					else:
+						self.group_solution[i].color = RED_B
+						self.group_if[i].color = RED_B
+			for i in range(len(self.group_if)):
+				if self.group_if[i].rect.collidepoint(pygame.mouse.get_pos()):
+					if self.group_solution[i].color == RED_B:
+						self.group_solution[i].color = WHITE
+						self.group_if[i].color = WHITE
+					else:
+						self.group_solution[i].color = RED_B
+						self.group_if[i].color = RED_B
 
 	def render_CodeInput(self, txt, txt_center):
 		self.screen.fill(WHITE)			
