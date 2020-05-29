@@ -145,13 +145,18 @@ class Game2():
 				else:
 					op = self.list_actions.pop(0)
 					if op[0] == "GO":
+						print self.dir
 						tmp = self.OPS[op[0]].run(self.board.ar, self.board.p, op[1], self.dir)
 						if tmp == ():
 							continue
+						elif tmp == (-1):
+							return -1
 						self.board.p = tmp
 						if self.board.p == self.board.P:
 							return 1
+						print "hh"
 					else:
+						print "turn"
 						self.dir = self.OPS[op[0]].run(self.board.ar, self.board.p, op[1],self.dir)
 
 			self.render_Play()
@@ -304,9 +309,7 @@ class Game2():
 		self.board.draw(self.dir)
 
 	def render_Play(self):
-		for i in self.list_actions:
-			print(i[0],"->",end="")
-		print("")
+
 		self.screen.fill(WHITE)
 		self.screen.blit(self.right_menu, (SCREEN_WIDTH, 0))
 		for buttons in (self.group_button, self.group_solution, self.group_if):

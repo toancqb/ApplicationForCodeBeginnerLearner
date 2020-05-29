@@ -27,6 +27,8 @@ class RIGHT():
 				#ar[x+1][y] = ar[x][y]
 				#ar[x][y] = 0
 				return (x+1,y)
+			else:
+				return (-1)
 		return ()
 
 class LEFT():
@@ -45,6 +47,8 @@ class LEFT():
 				#ar[x-1][y] = ar[x][y]
 				#ar[x][y] = 0
 				return (x-1,y)
+			else:
+				return (-1)
 		return ()
 		
 class DOWN():
@@ -62,6 +66,8 @@ class DOWN():
 				#ar[x][y+1] = ar[x][y]
 				#ar[x][y] = 0
 				return (x,y+1)
+			else:
+				return (-1)
 		return ()
 
 class UP():
@@ -79,6 +85,8 @@ class UP():
 				#ar[x][y-1] = ar[x][y]
 				#ar[x][y] = 0
 				return (x,y-1)
+			else:
+				return (-1)
 		return ()
 
 class GO():
