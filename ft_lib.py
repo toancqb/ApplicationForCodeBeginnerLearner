@@ -1,8 +1,8 @@
 ###############################
 ## Author: TRAN Quang Toan   ##
-## Project APP_4_0_CODE      ##
-## Version 1                 ##
-## 13 Apr 2020               ##
+## Project APP_4_0_CODE	  ##
+## Version 1				 ##
+## 13 Apr 2020			   ##
 ###############################
 
 from define import *
@@ -21,108 +21,113 @@ def is_in_list(lst, s):
 	return False
 
 def is_in_list2(lst, s):
-    for i in lst:
-        if i[0] == s:
-            return True
-    return False
+	for i in lst:
+		if i[0] == s:
+			return True
+	return False
 
 def rev_rect(p):
 	return (p[0] // CELL, p[1] // CELL)
 
 def rev_rect_button(p):
-    return (p[0] // BS, p[1] // BS)
+	return (p[0] // BS, p[1] // BS)
 
-def change_color(self):
-    self.color = [random.randint(0,255) for _ in range(3)]
+def change_color():
+	color = [random.randint(0,255) for _ in range(3)]
 
-
+def draw_player(screen, p, dir):
+	if dir == None:
+		pygame.draw.rect(screen, ORANGE, (p[0]*CELL,p[1]*CELL, CELL, CELL))
+		pygame.draw.rect(screen, BLACK, (p[0]*CELL+1,p[1]*CELL+1, CELL-2, CELL-2))
+	else:
+		screen.blit(JET[dir], (p[0]*CELL,p[1]*CELL))
 
 class Button():
-    """A fairly straight forward button class."""
-    def __init__(self,rect,color,function,**kwargs):
-        self.rect = pg.Rect(rect)
-        self.color = color
-        self.function = function
-        self.clicked = False
-        self.hovered = False
-        self.hover_text = None
-        self.clicked_text = None
-        self.process_kwargs(kwargs)
-        self.render_text()
-        self.nc = 0
+	"""A fairly straight forward button class."""
+	def __init__(self,rect,color,function,**kwargs):
+		self.rect = pg.Rect(rect)
+		self.color = color
+		self.function = function
+		self.clicked = False
+		self.hovered = False
+		self.hover_text = None
+		self.clicked_text = None
+		self.process_kwargs(kwargs)
+		self.render_text()
+		self.nc = 0
 
-    def process_kwargs(self,kwargs):
-        """Various optional customization you can change by passing kwargs."""
-        settings = {"text" : None,
-                    "font" : pg.font.Font(None,16),
-                    "call_on_release" : True,
-                    "hover_color" : None,
-                    "clicked_color" : None,
-                    "font_color" : pg.Color("white"),
-                    "hover_font_color" : None,
-                    "clicked_font_color" : None,
-                    "click_sound" : None,
-                    "hover_sound" : None}
-        for kwarg in kwargs:
-            if kwarg in settings:
-                settings[kwarg] = kwargs[kwarg]
-            else:
-                raise AttributeError("Button has no keyword: {}".format(kwarg))
-        self.__dict__.update(settings)
+	def process_kwargs(self,kwargs):
+		"""Various optional customization you can change by passing kwargs."""
+		settings = {"text" : None,
+					"font" : pg.font.Font(None,16),
+					"call_on_release" : True,
+					"hover_color" : None,
+					"clicked_color" : None,
+					"font_color" : pg.Color("white"),
+					"hover_font_color" : None,
+					"clicked_font_color" : None,
+					"click_sound" : None,
+					"hover_sound" : None}
+		for kwarg in kwargs:
+			if kwarg in settings:
+				settings[kwarg] = kwargs[kwarg]
+			else:
+				raise AttributeError("Button has no keyword: {}".format(kwarg))
+		self.__dict__.update(settings)
 
-    def render_text(self):
-        """Pre render the button text."""
-        if self.text:
-            if self.hover_font_color:
-                color = self.hover_font_color
-                self.hover_text = self.font.render(self.text,True,color)
-            if self.clicked_font_color:
-                color = self.clicked_font_color
-                self.clicked_text = self.font.render(self.text,True,color)
-            self.text = self.font.render(self.text,True,self.font_color)
+	def render_text(self):
+		"""Pre render the button text."""
+		if self.text:
+			if self.hover_font_color:
+				color = self.hover_font_color
+				self.hover_text = self.font.render(self.text,True,color)
+			if self.clicked_font_color:
+				color = self.clicked_font_color
+				self.clicked_text = self.font.render(self.text,True,color)
+			self.text = self.font.render(self.text,True,self.font_color)
 
-    def check_event(self,event):
-        """The button needs to be passed events from your program event loop."""
-        if event.type == pg.MOUSEBUTTONDOWN and event.button == 1:
-            self.on_click(event)
-        elif event.type == pg.MOUSEBUTTONUP and event.button == 1:
-            self.on_release(event)
+	def check_event(self,event):
+		"""The button needs to be passed events from your program event loop."""
+		if event.type == pg.MOUSEBUTTONDOWN and event.button == 1:
+			self.on_click(event)
+		elif event.type == pg.MOUSEBUTTONUP and event.button == 1:
+			self.on_release(event)
 
-    def on_click(self,event):
-        if self.rect.collidepoint(event.pos):
-            self.clicked = True
-            if not self.call_on_release:
-                self.function()
+	def on_click(self,event):
+		if self.rect.collidepoint(event.pos):
+			self.clicked = True
+			if not self.call_on_release:
+				self.function()
 
-    def on_release(self,event):
-        if self.clicked and self.call_on_release:
-            self.function()
-        self.clicked = False
+	def on_release(self,event):
+		if self.clicked and self.call_on_release:
+			self.function()
+		self.clicked = False
 
-    def check_hover(self):
-        if self.rect.collidepoint(pg.mouse.get_pos()):
-            if not self.hovered:
-                self.hovered = True
-                if self.hover_sound:
-                    self.hover_sound.play()
-        else:
-            self.hovered = False
+	def check_hover(self):
+		if self.rect.collidepoint(pg.mouse.get_pos()):
+			if not self.hovered:
+				self.hovered = True
+				if self.hover_sound:
+					self.hover_sound.play()
+		else:
+			self.hovered = False
 
-    def update(self,surface):
-        """Update needs to be called every frame in the main loop."""
-        color = self.color
-        text = self.text
-        self.check_hover()
-        if self.clicked and self.clicked_color:
-            color = self.clicked_color
-            if self.clicked_font_color:
-                text = self.clicked_text
-        elif self.hovered and self.hover_color:
-            color = self.hover_color
-            if self.hover_font_color:
-                text = self.hover_text
-        surface.fill(pg.Color("black"),self.rect)
-        surface.fill(color,self.rect.inflate(-4,-4))
-        if self.text:
-            text_rect = text.get_rect(center=self.rect.center)
-            surface.blit(text,text_rect)
+	def update(self,surface):
+		"""Update needs to be called every frame in the main loop."""
+		color = self.color
+		text = self.text
+		self.check_hover()
+		if self.clicked and self.clicked_color:
+			color = self.clicked_color
+			if self.clicked_font_color:
+				text = self.clicked_text
+		elif self.hovered and self.hover_color:
+			color = self.hover_color
+			if self.hover_font_color:
+				text = self.hover_text
+		surface.fill(pg.Color("black"),self.rect)
+		surface.fill(color,self.rect.inflate(-4,-4))
+		if self.text:
+			text_rect = text.get_rect(center=self.rect.center)
+			surface.blit(text,text_rect)

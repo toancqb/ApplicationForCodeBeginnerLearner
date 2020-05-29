@@ -1,8 +1,8 @@
 ###############################
 ## Author: TRAN Quang Toan   ##
-## Project APP_4_0_CODE	  ##
-## Version 1				 ##
-## 13 Apr 2020			   ##
+## Project APP_4_0_CODE      ##
+## Version 1                 ##
+## 13 Apr 2020               ##
 ###############################
 
 import pygame
@@ -10,8 +10,9 @@ from define import *
 from ft_lib import *
 from board import *
 from operations import *
+from game2 import *
 
-class Game2():
+class Game():
 	def __init__(self):
 		pygame.init()
 		self.screen = pygame.display.set_mode((SCREEN_WIDTH + SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -21,12 +22,15 @@ class Game2():
 		self.font = pygame.font.SysFont("comicsansms", 30)
 		self.font2 = pygame.font.SysFont("comicsansms", 25)
 
-		self.left = TURN_LEFT()
-		self.right = TURN_RIGHT()
-		self.go = GO()
+		self.right = RIGHT()
+		self.down = DOWN()
+		self.up = UP()
+		self.left = LEFT()
+		self.dir = None
 
 		self.OPS = {
-			"GO": self.go,
+			"UP": self.up,
+			"DOWN": self.down,
 			"LEFT": self.left,
 			"RIGHT": self.right
 		}
@@ -35,8 +39,9 @@ class Game2():
 		self.group_solution = []
 		self.group_if = []
 		self.init_buttons()
-		self.group_level = [self.board.init_level_1,self.board.init_level_2,self.board.init_level_8,self.board.init_level_9]
-		self.dir = "10"
+		self.group_level = [self.board.init_level_1,self.board.init_level_2,\
+			self.board.init_level_3,self.board.init_level_4,self.board.init_level_5,\
+				self.board.init_level_6,self.board.init_level_7]
 
 
 	def Game_Play(self):
@@ -52,7 +57,7 @@ class Game2():
 			if level == len(self.group_level):
 				self.Finished()
 				break
-			self.dir = self.group_level[level]()
+			self.group_level[level]()
 			
 			self.init_solution()
 		
@@ -74,11 +79,11 @@ class Game2():
 		txt = " -=Press [SPACE] to Play=-"
 		txt = self.font2.render(txt, True, GREEN)
 		txt_center = (
-			SCREEN_WIDTH + SCREEN_WIDTH//4 - txt.get_width() // 2,\
+            SCREEN_WIDTH + SCREEN_WIDTH//4 - txt.get_width() // 2,\
 				 300 - txt.get_height() // 2
-		)
+        )
 
-		c, cin = 0, True
+		click, c, cin = 0, 0, True
 		self.code = []		
 		
 		running = True
@@ -144,15 +149,12 @@ class Game2():
 					return -1
 				else:
 					op = self.list_actions.pop(0)
-					if op[0] == "GO":
-						tmp = self.OPS[op[0]].run(self.board.ar, self.board.p, op[1], self.dir)
-						if tmp == ():
-							continue
-						self.board.p = tmp
-						if self.board.p == self.board.P:
-							return 1
-					else:
-						self.dir = self.OPS[op[0]].run(self.board.ar, self.board.p, op[1],self.dir)
+					tmp = self.OPS[op[0]].run(self.board.ar, self.board.p, op[1])
+					if tmp == ():
+						continue
+					self.board.p = tmp
+					if self.board.p == self.board.P:
+						return 1
 
 			self.render_Play()
 
@@ -168,15 +170,15 @@ class Game2():
 			txt = "-= T =-"
 		txt = self.font.render(txt, True, GREEN)
 		txt_center = (
-			SCREEN_WIDTH + SCREEN_WIDTH//4 - txt.get_width() // 2,\
+            SCREEN_WIDTH + SCREEN_WIDTH//4 - txt.get_width() // 2,\
 				 50 - txt.get_height() // 2
-		)
+        )
 		txt2 = " -=Press [SPACE] to Play=-"
 		txt2 = self.font2.render(txt2, True, GREEN)
 		txt_center2 = (
-			SCREEN_WIDTH + SCREEN_WIDTH//4 - txt.get_width() // 2,\
+            SCREEN_WIDTH + SCREEN_WIDTH//4 - txt.get_width() // 2,\
 				 300 - txt.get_height() // 2
-		)
+        )
 		running = True
 		while running:
 			for event in pygame.event.get():
@@ -205,15 +207,15 @@ class Game2():
 		txt = "-= Congratulation! =-"
 		txt = self.font.render(txt, True, GREEN)
 		txt_center = (
-			SCREEN_WIDTH + SCREEN_WIDTH//4 - txt.get_width() // 2,\
+            SCREEN_WIDTH + SCREEN_WIDTH//4 - txt.get_width() // 2,\
 				 50 - txt.get_height() // 2
-		)
+        )
 		txt2 = " -=Press [ESC] to Exit=-"
 		txt2 = self.font2.render(txt2, True, GREEN)
 		txt_center2 = (
-			SCREEN_WIDTH + SCREEN_WIDTH//4 - txt.get_width() // 2,\
+            SCREEN_WIDTH + SCREEN_WIDTH//4 - txt.get_width() // 2,\
 				 300 - txt.get_height() // 2
-		)
+        )
 		running = True
 		while running:
 			for event in pygame.event.get():
@@ -233,8 +235,11 @@ class Game2():
 
 	def init_buttons(self):
 		norm = SCREEN_WIDTH+SCREEN_WIDTH//4
-		self.button_go = Button((0,0,BS,BS),RED,change_color,text="GO",**BUTTON_STYLE)
-		self.button_go.rect.center = (norm - BS,100)
+		self.button_up = Button((0,0,BS,BS),RED,change_color,text="UP",**BUTTON_STYLE)
+		self.button_up.rect.center = (norm - BS*2,100)
+
+		self.button_down = Button((0,0,BS,BS),RED,change_color,text="DOWN",**BUTTON_STYLE)
+		self.button_down.rect.center = (norm - BS,100)
 
 		self.button_left = Button((0,0,BS,BS),RED,change_color,text="LEFT",**BUTTON_STYLE)
 		self.button_left.rect.center = (norm,100)
@@ -245,7 +250,7 @@ class Game2():
 		self.button_f1 = Button((0,0,BS,BS),GREEN,change_color,text="F1",**BUTTON_STYLE)
 		self.button_f1.rect.center = (norm + BS*2,100)
 
-		self.group_button = [self.button_go,self.button_left,self.button_right,self.button_f1]
+		self.group_button = [self.button_up,self.button_down,self.button_left,self.button_right,self.button_f1]
 		self.group_if = []
 
 	def init_solution(self):
@@ -262,8 +267,11 @@ class Game2():
 			self.group_if[-1].rect.center = (norm + BS*7, 100 +BS*i)
 
 	def process_buttons(self, pos):
-		if self.button_go.rect.collidepoint(pos):
-			self.code.append(["GO", None])
+		if self.button_up.rect.collidepoint(pos):
+			self.code.append(["UP", None])
+			return True
+		if self.button_down.rect.collidepoint(pos):
+			self.code.append(["DOWN", None])
 			return True
 		if self.button_left.rect.collidepoint(pos):
 			self.code.append(["LEFT", None])
@@ -304,9 +312,6 @@ class Game2():
 		self.board.draw(self.dir)
 
 	def render_Play(self):
-		for i in self.list_actions:
-			print(i[0],"->",end="")
-		print("")
 		self.screen.fill(WHITE)
 		self.screen.blit(self.right_menu, (SCREEN_WIDTH, 0))
 		for buttons in (self.group_button, self.group_solution, self.group_if):
@@ -316,5 +321,7 @@ class Game2():
 
 
 if __name__ == '__main__':
-	G = Game2()
+	G = Game()
+	G2 = Game2()
 	G.Game_Play()
+	G2.Game_Play()
