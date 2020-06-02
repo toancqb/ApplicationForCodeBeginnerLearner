@@ -17,6 +17,6 @@ Version 1\
 <br>
 <br>*) Example: 
 <br>UP DOWN F1 
-<br>=> UP DOWN Call_F1->[UP DOWN Call_F1->(UP DOWN Call_F1->{UP DOWN Call_F1->...})]
+<br>=> UP LEFT Call_F1->[UP LEFT Call_F1->(UP LEFT Call_F1->{UP LEFT Call_F1->...})]
 <br> Video Demo:
 https://www.youtube.com/watch?v=aOkJh7vdezM&list=UUf_jXfYVtb3eSqNLdETfVuQ&index=1
