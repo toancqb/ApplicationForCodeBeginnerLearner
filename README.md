@@ -7,14 +7,13 @@ Version 1\
 <br>python3 game.py<br>
 <br>
 <br>*) How to play:
-<br>Choose the commands from the buttons UP, DOWN, LEFT, RIGHT, F1
+<br>Choose the commands from the buttons GO, LEFT, RIGHT, F1
 <br>Press SPACE to play
 <br>Press ESC to quit
-<br>UP: move up one step
-<br>DOWN: move down one step
-<br>LEFT: move left one step
-<br>RIGHT: move right one step
-<br>F1: Function recursive, call itself
+<br>GO: move one step in the current direction
+<br>LEFT: turn direction to the left
+<br>RIGHT: turn direction to the right
+<br>F1: Function recursive, call itself 
 <br>
 <br>*) Example: 
 <br>UP DOWN F1 
