@@ -1,7 +1,7 @@
-<br/> Author: TRAN Quang Toan   
-<br/> Project APP_4_0_CODE      
-<br/> Version 1                 
-<br/> 13 Apr 2020               
+Author: TRAN Quang Toan\   
+Project APP_4_0_CODE\  
+Version 1\
+13 Apr 2020\               
 <br> #ApplicationForCodeBeginnerLearner
 <br>*) To Compile:
 <br>python3 game.py<br>
@@ -19,3 +19,5 @@
 <br>*) Example: 
 <br>UP DOWN F1 
 <br>=> UP DOWN Call_F1->[UP DOWN Call_F1->(UP DOWN Call_F1->{UP DOWN Call_F1->...})]
+<br> Video Demo:
+https://www.youtube.com/watch?v=aOkJh7vdezM&list=UUf_jXfYVtb3eSqNLdETfVuQ&index=1
